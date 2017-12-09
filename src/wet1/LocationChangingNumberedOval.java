@@ -1,0 +1,109 @@
+package wet1;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+
+
+
+/**
+ * LocationChangingNumberedOval represents an ellipse shape with an id number.
+ * Objects id number is given by the order of creation since the first instance. 
+ * first instance id is 1.
+ */
+
+public class LocationChangingNumberedOval extends LocationChangingOval
+{
+	
+	static int instanceCounter = 0;
+	private int id; 
+	/**
+	 * Abs. Func
+	 * Let e be an instance of LocationChangingNumberedOval.
+	 * e represent an ellipse shape with an id number at e.id
+	 * e.draw will draw the id number in middle of the ellipse figure.
+	 * 
+	 * Rep. Invariant
+	 * e.id >=1 
+	 */
+	
+	
+	/**
+	 * @effects initialize an ellipse shape and update it's id value
+	 * according to the order of it's creation.
+	 */
+	public LocationChangingNumberedOval(Point location, Color color, int a, int b)
+	{
+		super(location, color, a, b);
+		instanceCounter++;
+		id = instanceCounter;
+		checkRep();
+	}
+		
+	
+	/**
+	 * @return id value of this.
+	 */
+	public int getId()
+	{
+		return id;
+	}
+
+	/**
+	 * @modifies this
+	 * @effects Sets id of this.
+	 */
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+	
+	
+
+	@Override
+	/**
+	 * @modifies g
+	 * @effects Draws this onto g.
+	 */
+	public void draw(Graphics g) 
+	{
+		// TODO - a complete guess
+		checkRep();		
+		super.draw(g);		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.drawString(Integer.toString(this.id), this.getLocation().x + this.getA(), 
+				this.getLocation().y + this.getB());
+		checkRep();
+	}
+
+	
+	@Override
+	/**
+	 * @effects Creates and returns a copy of this.
+	 */
+	public Object clone()
+	{
+		checkRep();
+		LocationChangingNumberedOval newLocationChangingNumberedOval;
+		
+		newLocationChangingNumberedOval = (LocationChangingNumberedOval)super.clone();
+		newLocationChangingNumberedOval.id = this.id;
+		checkRep();
+		return newLocationChangingNumberedOval;
+	
+	
+	}
+	
+
+	@Override
+	/** 
+	 * @effects check representation invariant conditions 
+	 */
+	public void checkRep()
+	{
+		super.checkRep();
+		assert this.id > 0: "numbered oval id value must be greater than 0";			
+	}
+	
+}
