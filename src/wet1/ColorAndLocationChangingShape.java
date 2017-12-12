@@ -45,7 +45,8 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
 	 *			changes the color of this to a new random color;
 	 *			else, does not change the color of this.
      */
-    public void step(Rectangle bound) {
+    /*public void step(Rectangle bound)
+    {
     	checkRep();
         int oldXVelocity = this.getVelocityX();
         int oldYVelocity = this.getVelocityY();
@@ -58,6 +59,21 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
         	Random random = new Random();
         	this.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)) );
         }
+        checkRep();
+    }*/
+    public void step(Rectangle bound)
+    {
+        checkRep();
+        Rectangle tmpMovedRect = new Rectangle(this.boundingRectangle.x + this.xVel,
+                this.boundingRectangle.y + this.yVel, this.boundingRectangle.width, this.boundingRectangle.height);
+        if (!bound.contains(tmpMovedRect))
+        {
+            System.out.println("color");
+            Random random = new Random();
+            Color newColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+            this.setColor(newColor);
+        }
+        super.step(bound);
         checkRep();
     }
 }

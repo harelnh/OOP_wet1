@@ -28,9 +28,9 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 	// s.location.equals(s.boundingRectangle)
 	//
 
-	private int xVel;
-	private int yVel;
-	private Rectangle boundingRectangle;
+	protected int xVel;
+	protected int yVel;
+	protected Rectangle boundingRectangle;
 	private static int[] velValuesArr =
 	{ -5, -4, -3, -2, -1, 1, 2, 3, 4, 5 };
 

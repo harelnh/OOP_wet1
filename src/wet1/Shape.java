@@ -88,7 +88,7 @@ public abstract class Shape implements Cloneable
 	 * @modifies this
 	 * @effects Sets color of this.
 	 */
-	public void setColor(Color color)
+	protected void setColor(Color color)
 	{
 		this.color = color;
 	}
