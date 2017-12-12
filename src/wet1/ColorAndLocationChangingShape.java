@@ -22,7 +22,6 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
      *  since no fields has added over ancestor, the Rep Inv is identical to ancestors one.
      */
 
-    // TODO (BOM): Write Representation Invariant
 
 
     /**
@@ -56,7 +55,7 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
         if(oldXVelocity != this.getVelocityX() || oldYVelocity != this.getVelocityY()) 
         {
         	Random random = new Random();
-        	this.setColor(new Color(random.nextInt(), random.nextInt(), random.nextInt()) );
+        	this.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)) );
         }
         checkRep();
     }

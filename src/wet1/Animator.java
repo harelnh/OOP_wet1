@@ -55,9 +55,13 @@ public class Animator extends JFrame implements ActionListener {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
                     //       shapes in this
-
-
-
+                    Iterator<Shape> iterator = this.Shapes.iterator();
+                    Rectangle window = Rectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+                    while (iterator.hasNext())
+                    {
+                        Animatble animatble = (Animatble)iterator.next();
+                        animatble.step(window);
+                    }
                     repaint();  // make sure that the shapes are redrawn
                 }
             }
@@ -131,10 +135,11 @@ public class Animator extends JFrame implements ActionListener {
      */
     public void paint(Graphics g) {
         super.paint(g);
-
-        //TODO (BOM): Add code for drawing all shapes in this
-
-
+        Iterator<Shape> iterator = this.shapes.iterator();
+        while (iterator.hasNext())
+        {
+            iterator.next().draw(g);
+        }
     }
 
 
@@ -170,6 +175,54 @@ public class Animator extends JFrame implements ActionListener {
             //       its location, size and color are randomly selected &&
             //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
             //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
+            Rectangle window = new Rectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+            int minHeight = (int)((1./10)*WINDOW_HEIGHT);
+            int maxHight = (int)((3./10)*WINDOW_HEIGHT);
+            int minWidth = (int)((1./10)*WINDOW_WIDTH);
+            int maxWidth = (int)((3./10)*WINDOW_WIDTH);
+            int x,y,shapeWidth,shapeHight;
+            Random random = new Random();
+            boolean fits = false;
+            do
+            {
+                shapeHight = random.nextInt(maxHight-minHeight) + minHeight;
+                shapeHight = random.nextInt(maxWidth-minWidth) + minWidth;
+                x = random.nextInt(WINDOW_WIDTH);
+                y = random.nextInt(WINDOW_HEIGHT);
+                Rectangle rectangle = new Rectangle(x,y,shapeWidth,shapeHight);
+                if window.contains(rectangle)
+                {
+                    fits = false;
+                }
+            }while (!fits);
+
+            int r = rand.nextInt(255);
+            int g = rand.nextInt(255);
+            int b = rand.nextInt(255);
+            Color color = new Color(r, g, b);
+            Point location = new Point(x, y);
+            Dimension dimension = new Dimension(shapeWidth, shapeHight);
+
+            if (source.equals(triangleItem))
+            {
+                LocationAndColorChangingTriangle newShape = new LocationAndColorChangingTriangle(location, color, dimension);
+                shapes.add(newShape);
+            }
+            else if(source.equals(sectorItem))
+            {
+                AngleChangingSector newShape = new AngleChangingSector(location, color, dimension);
+                shapes.add(newShape);
+            }
+            else if((source.equals(numberedOvalItem)))
+            {
+                LocationChangingNumberedOval newShape = new LocationChangingNumberedOval(location, color, dimension);
+                shapes.add(newShape);
+            }
+            else if (source.equals(ovalItem))
+            {
+                LocationChangingOval newShape = new LocationChangingOval(location, color, dimension);
+                shapes.add(newShape);
+            }
 
 
             repaint();

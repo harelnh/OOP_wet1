@@ -18,11 +18,8 @@ public abstract class Shape implements Cloneable
 	 * it's color at this.color
 	 * 
 	 * Rep. Invariant: location != null /* color != null
-	 * 
-	 * // TODO (BOM): Write Abstraction Function
-	 * 
-	 * // TODO (BOM): Write Representation Invariant
-	 * 
+	 *
+
 	 * 
 	 * /**
 	 * 
@@ -39,8 +36,8 @@ public abstract class Shape implements Cloneable
 	 */
 	public Point getLocation()
 	{
-		// TODO (BOM): Implement this method
-		return location.getLocation(); // TODO - do we need to return clone or location itself?
+		Point locationCopy = new Point(this.location);
+		return locationCopy;
 
 	}
 
@@ -108,7 +105,7 @@ public abstract class Shape implements Cloneable
 	public Object clone()
 	{
 		checkRep();
-		Shape newShape = null; // TODO - why necessary (not alike the tutorial) 
+		Shape newShape = null; // TODO - why necessary (not alike the tutorial)
 
 		try
 		{
@@ -120,7 +117,6 @@ public abstract class Shape implements Cloneable
 			assert false : "Got inside the CloneNotSupportedException" + " exception of Shape.clone()";
 		}
 		newShape.location = this.location.getLocation();
-		// TODO - don't we need to clone manually color also
 		newShape.checkRep();
 		checkRep();
 		return newShape;

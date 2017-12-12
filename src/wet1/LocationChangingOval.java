@@ -186,9 +186,8 @@ public class LocationChangingOval extends LocationChangingShape
 	 */
 	public void checkRep()
 	{
-		super.checkRep();
 		assert this.a > 0: "ovals 'a' value must be greater than 0";
-		assert this.b > 0: "ovals 'b' value must be greater than 0"; 
+		assert this.b > 0: "ovals 'b' value must be greater than 0";
 		assert this.size > 0: "ovals 'size' value must be greater than 0";
 		assert this.size == this.a * this.b * Math.PI: "ovals 'size' value must be equal to a*b*pi";		
 	}
