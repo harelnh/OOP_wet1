@@ -68,8 +68,8 @@ public class LocationChangingNumberedOval extends LocationChangingOval
 		checkRep();		
 		super.draw(g);		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawString(Integer.toString(this.id), this.getLocation().x +(int)this.getWidth(),
-				this.getLocation().y + (int)this.getHeight());
+		g2.drawString(Integer.toString(this.id), this.getLocation().x +(int)this.getWidth()/2,
+				this.getLocation().y + (int)this.getHeight()/2);
 		checkRep();
 	}
 

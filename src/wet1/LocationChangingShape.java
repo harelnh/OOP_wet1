@@ -19,7 +19,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 	// This class extends Shape with horizontal velocity at s.horizVel,
 	// vertical velocity at s.vertVel and bounding rectangle
 	// at s.boundingRectangle which initialized to a 0x0 Rectangle
-	// with it's center at s.location
+	// with it's top left hand corner at s.location
 
 	// Representation Invariant:
 	//
@@ -98,7 +98,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 	public void setBoundingRectangle(Rectangle rectangle)
 	{
 		checkRep();
-		this.boundingRectangle = rectangle;
+		this.boundingRectangle = new Rectangle(rectangle);
 		this.setLocation(rectangle.getLocation());
 		checkRep();
 	}
@@ -136,24 +136,32 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 		Rectangle tmpMovedRect = new Rectangle(this.boundingRectangle.x + this.xVel,
 				this.boundingRectangle.y + this.yVel, this.boundingRectangle.width, this.boundingRectangle.height);
 
-		if (!bound.contains(this.boundingRectangle)
-				|| bound.contains(boundingRectangle) && !bound.contains(tmpMovedRect))
+		if (!bound.contains(tmpMovedRect))
 		{
-			if (tmpMovedRect.getCenterX() > bound.getCenterX())
+			if (tmpMovedRect.getX() < bound.getX() && getVelocityX() < 0)
 			{
 				this.setVelocity(-getVelocityX(), getVelocityY());
 			}
-			if (tmpMovedRect.getCenterY() > bound.getCenterY())
+			if (tmpMovedRect.getX() + tmpMovedRect.getWidth() > bound.getX() + bound.getWidth() && getVelocityX() > 0)
+			{
+				this.setVelocity(-getVelocityX(), getVelocityY());
+			}
+			if (tmpMovedRect.getY() + tmpMovedRect.getHeight() > bound.getY() + bound.getHeight() && getVelocityY() > 0)
 			{
 				this.setVelocity(getVelocityX(), -getVelocityY());
 			}
+			if (tmpMovedRect.getY() < bound.getY() && getVelocityY() < 0)
+			{
+				this.setVelocity(getVelocityX(), -getVelocityY());
+			}
+
 		}
 
 		// update shape and boundingRectangle locations.
 		Point newLocation = new Point(this.boundingRectangle.x + this.xVel,
 				this.boundingRectangle.y + this.yVel);
 		this.setLocation(newLocation);
-		this.boundingRectangle.setLocation(newLocation);
+		this.boundingRectangle = tmpMovedRect;
 		checkRep();
 	}
 
@@ -171,7 +179,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 		// TODO do we need to manually clone velocities
 		newLocationChangingShape.xVel = this.xVel;
 		newLocationChangingShape.yVel = this.yVel;
-		newLocationChangingShape.boundingRectangle = this.boundingRectangle.getBounds();
+		newLocationChangingShape.boundingRectangle = new Rectangle(this.boundingRectangle);
 		newLocationChangingShape.checkRep();
 		checkRep();
 		return newLocationChangingShape;

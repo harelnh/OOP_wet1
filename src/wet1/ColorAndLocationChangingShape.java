@@ -36,8 +36,8 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
 		checkRep();
 
     }
-
     /**
+
      * @modifies this
      * @effects Changes the location of this as described in the specification
      *          of LocationChangingShape.step(Rectangle bound) &&
@@ -54,6 +54,7 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
         // velocity has changed at super.step
         if(oldXVelocity != this.getVelocityX() || oldYVelocity != this.getVelocityY()) 
         {
+            System.out.println("color");
         	Random random = new Random();
         	this.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)) );
         }

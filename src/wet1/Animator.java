@@ -63,7 +63,7 @@ public class Animator extends JFrame implements ActionListener {
                     while (iterator.hasNext())
                     {
                         Animatable animatble = (Animatable)iterator.next();
-                        animatble.step(window);
+                        animatble.step(window.getBounds());
                     }
                     repaint();  // make sure that the shapes are redrawn
                 }
@@ -186,11 +186,9 @@ public class Animator extends JFrame implements ActionListener {
             int x =0 ,y = 0,shapeWidth = 0,shapeHight = 0 ;
             Random random = new Random();
             boolean fits = false;
-            System.out.println("1");
 
             while (!fits)
             {
-                System.out.println("2");
                 shapeHight = random.nextInt(maxHight-minHeight) + minHeight;
                 shapeWidth = random.nextInt(maxWidth-minWidth) + minWidth;
                 x = random.nextInt(WINDOW_WIDTH);

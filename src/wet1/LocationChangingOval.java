@@ -21,16 +21,16 @@ public class LocationChangingOval extends LocationChangingShape
 
 	/**
 	 * Abs. Function:
-	 *  Let e be a LocationChangingOval instance. e represent an oval
-	 * (ellipse) shape e horizontal length (from center to edge) is at e.dimension.getWidth()e
-	 * vertical length (from center to edge) is at e.imension.getHeight()e size is at e.size and
+	 *  Let e be a LocationChangingOval instance. e represents an oval
+	 * (ellipse) shape with a dimension paramater so that the dimension specified is the dimension of the shapes
+	 * bounding rectangle. size is at e.size and
 	 * calculated by e.size = PI*a*b
 	 * 
 	 * 
 	 * Rep Invariant
 	 *  e.dimension.getWidth()> 0
-	 *  e.imension.getHeight()> 0
-	 *  e.size > 0 && size = PI*a*b
+	 *  e.dimension.getHeight()> 0
+	 *  e.size > 0 && size = PI*dimension.getWidth()*imension.getHeight()
 	 * 
 	 */
 
@@ -47,7 +47,7 @@ public class LocationChangingOval extends LocationChangingShape
 		this.size = Math.PI * dimension.getWidth()* dimension.getHeight();
 
 		// update the empty default bounding rectangle according to oval dimensions.
-		Rectangle ovalBoundingRectangle = new Rectangle(location.x, location.y, 2 * (int)dimension.getWidth(), 2 * (int)dimension.getHeight());
+		Rectangle ovalBoundingRectangle = new Rectangle(location.x, location.y,  (int)dimension.getWidth(), (int)dimension.getHeight());
 		this.setBoundingRectangle(ovalBoundingRectangle);
 		checkRep();
 
@@ -60,7 +60,7 @@ public class LocationChangingOval extends LocationChangingShape
 	{
 		checkRep();
 		Rectangle newRactangle = new Rectangle(this.getLocation().x, this.getLocation().y,
-				2 * (int)dimension.getWidth(), 2 * (int)dimension.getHeight());
+				 (int)dimension.getWidth(),  (int)dimension.getHeight());
 		this.setBoundingRectangle(newRactangle);
 		checkRep();
 	}
@@ -69,7 +69,7 @@ public class LocationChangingOval extends LocationChangingShape
 	 * @modifies this
 	 * @effects Sets dimension of this
 	 */
-	public void setDimension(Dimension dimension)
+	private void setDimension(Dimension dimension)
 	{
 		checkRep();
 		this.dimension = new Dimension(dimension);
@@ -112,15 +112,12 @@ public class LocationChangingOval extends LocationChangingShape
 	 */
 	public void setSize(Dimension dimension) throws ImpossibleSizeException
 	{
-		checkRep();	
-		
-		//TODO - implement that exeption. what if null 
-		
+		checkRep();
 		if(dimension.height <= 0 || dimension.width <= 0)
 			throw new ImpossibleSizeException(dimension);
 		else{
 			Dimension ovalDimension = new Dimension();
-			ovalDimension.setSize(dimension.getWidth() / 2, dimension.getHeight() / 2); //because oval dimensions are half of the ones of bounding rectangle
+			ovalDimension.setSize(dimension.getWidth() , dimension.getHeight() );
 			this.setDimension(ovalDimension);
 		}
 		checkRep();
@@ -135,7 +132,7 @@ public class LocationChangingOval extends LocationChangingShape
 	public void draw(Graphics g) 
 	{
 		// TODO - dimension.getWidth()complete guess
-		checkRep();		
+		checkRep();
 		Graphics2D g2 = (Graphics2D) g;
 		g2.fillOval(this.getBounds().x, this.getBounds().y, this.getBounds().width, 
 				this.getBounds().height);
@@ -153,8 +150,7 @@ public class LocationChangingOval extends LocationChangingShape
 		LocationChangingOval newLocationChangingOval;
 		
 		// TODO - why can't we insert try-catch here
-		newLocationChangingOval = (LocationChangingOval) super.clone();		
-		// TODO do we need to manually clone a,b,size
+		newLocationChangingOval = (LocationChangingOval) super.clone();
 		newLocationChangingOval.dimension = new Dimension(this.dimension);
 		newLocationChangingOval.size = this.getSize();
 		newLocationChangingOval.checkRep();
