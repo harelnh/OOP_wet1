@@ -39,7 +39,7 @@ public class AngleChangingSector extends Shape implements Animatable
      */
     public AngleChangingSector(Point location, Color color, int startAngle, int arcAngle, Dimension dimension)
     {
-        super(point,color);
+        super(location,color);
         this.dimension = new Dimension(dimension);
         this.startAngle = startAngle;
         this.arcAngle = arcAngle;
@@ -80,7 +80,7 @@ public class AngleChangingSector extends Shape implements Animatable
     public void step(Rectangle bound)
     {
         checkRep();
-        if(arcAngle == 359)
+        if(arcAngle >= 359)
         {
             opening = false;
         }
@@ -94,7 +94,7 @@ public class AngleChangingSector extends Shape implements Animatable
         }
         else
         {
-            arcAngle += 1;
+            arcAngle -= 1;
         }
         calcSize();
         checkRep();
@@ -106,7 +106,7 @@ public class AngleChangingSector extends Shape implements Animatable
     private void calcSize() //TODO throw exception
     {
         checkRep();
-        this.size = this.dimension.getWidth() * this.dimension.getHight() * Math.PI * (this.arcAngle/360) ;
+        this.size = this.dimension.getWidth() * this.dimension.getHeight() * Math.PI * (this.arcAngle/360) ;
         checkRep();
     }
 
@@ -132,12 +132,14 @@ public class AngleChangingSector extends Shape implements Animatable
      */
     public void checkRep()
     {
-        assert this.dimension.getHight() > 0: "sectors dimensions should be biger then 0";
-        assert this.dimension.getwidth() > 0: "sectors dimensions should be biger then 0";
-        assert this.arcAngle >= 0 and this.arcAngle < 360: "angles should be between 0 and 359"
-        assert this.startAngle >= 0 and this.startAngle < 360: "angles should be between 0 and 359"
+        assert this.dimension.getHeight() > 0: "sectors dimensions should be biger then 0";
+        assert this.dimension.getWidth() > 0: "sectors dimensions should be biger then 0";
+        assert this.arcAngle >= 0: "angles should be between 0 and 359";
+        assert this.arcAngle < 360: "angles should be between 0 and 359";
+        assert this.startAngle < 360: "angles should be between 0 and 359";
+        assert this.startAngle >= 0 : "angles should be between 0 and 359";
         assert this.size > 0: "sectors 'size' value must be greater than 0";
-        assert this.size == this.dimension.getWidth() * this.dimension.getHight * Math.PI * (arcAngle/360) ; "sector 'size' value must be equal to a*b*pi*angle/360";
+        assert (this.size == this.dimension.getWidth() * this.dimension.getHeight() * Math.PI * (arcAngle/360)) : "sector 'size' value must be equal to a*b*pi*angle/360";
     }
 
 

@@ -109,6 +109,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 	 *          location after call has completed. we override it here because when
 	 *          location is changed we change rectangle location as well.
 	 */
+	/*
 	@Override
 	public void setLocation(Point location)
 	{
@@ -117,7 +118,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable
 		this.boundingRectangle.setLocation(location);
 		checkRep();
 	}
-
+*/
 	/**
 	 * @modifies this
 	 * @effects Let p = location v = (vx, vy) = velocity r = the bounding rectangle

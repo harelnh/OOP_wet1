@@ -17,8 +17,7 @@ import java.awt.Rectangle;
 public class LocationAndColorChangingTriangle extends ColorAndLocationChangingShape
 {
 	
-	private int xSideLength;
-	private int ySideLength;
+	private Dimension dimension;
 	private double size;
 	/**
 	 * Abs. Function:
@@ -26,77 +25,44 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 	 *  a right-angled triangle shape. 
 	 *  The location of the vertex of the right angle is the same as the location of the 
 	 *  bounding rectangle (accessed by t.getLocation()). The lengths of the right-angle 
-	 *  sides are at t.ySideLength and at t.xSideLength. the size is at t.size 
+	 *  sides are at t.dimension.getHeight() and at t.dimension.getWidth(). the size is at t.size
 	 *  
 	 * 
 	 * Rep Invariant
-	 *  t.xSideLength > 0
-	 *  t.ySideLength > 0
+	 *  t.dimension.getWidth() > 0
+	 *  t.dimension.getHeight() > 0
 	 *  t.size > 0
-	 *  t.size == xSideLength * ySideLength / 2 
+	 *  t.size == dimension.getWidth() * dimension.getHeight() / 2
 	 * 
 	 */
 	
 	/**
 	 * @effects Initializes this with a given location and color, horizontal side length
-	 *          xSideLength_ , and vertical size lengh ySideLength_. 
+	 *          dimension.getWidth()_ , and vertical size lengh dimension.getHeight()_.
 	 */
-	public LocationAndColorChangingTriangle(Point location, Color color, int xSideLength_,
-			int ySideLength_)
+	public LocationAndColorChangingTriangle(Point location, Color color, Dimension dimension)
 	{
 		super(location, color);
-		this.xSideLength = xSideLength_;
-		this.ySideLength = ySideLength_;
-		this.size = xSideLength_ * ySideLength_ / 2;
+		this.dimension = new Dimension(dimension);
+		this.size = dimension.getWidth() * dimension.getHeight() / 2;
 		
 		// update bounding rectangle params
-		Rectangle newRectangle = new Rectangle(location.x, location.y, xSideLength_, ySideLength_);
+		Rectangle newRectangle = new Rectangle(location.x, location.y, (int)dimension.getWidth(), (int)dimension.getHeight());
 		this.setBoundingRectangle(newRectangle);
 		checkRep();		
 	}
 	
-	
-	
-	/**
-	 * @return xSideLength value of this
-	 */	
-	public int getxSideLength()
-	{
-		checkRep();
-		return xSideLength;
-	}
+
 
 	/**
 	 * @modifies this
-	 * @effects Sets xSideLength of this
+	 * @effects Sets dimension.getHeight() of this.dimension.getHeight()
 	 */
-	public void setxSideLength(int xSideLength)
+	public void setDimension(Dimension dimension)
 	{
 		checkRep();
-		this.xSideLength = xSideLength;
-		this.size = this.xSideLength * this.ySideLength / 2;
-		updateBoundingRectangle();
-		checkRep();
-	}
-
-	/**
-	 * @return ySideLength value of this
-	 */	
-	public int getySideLength()
-	{
-		checkRep();
-		return ySideLength;
-	}
-	
-	/**
-	 * @modifies this
-	 * @effects Sets ySideLength of this.ySideLength
-	 */
-	public void setySideLength(int ySideLength)
-	{
-		checkRep();
-		this.ySideLength = ySideLength;
-		this.size = this.ySideLength * this.xSideLength / 2;
+		this.dimension = new Dimension(dimension);
+		this.size = this.dimension.getWidth() * this.dimension.getHeight() / 2;
 		updateBoundingRectangle();
 		checkRep();
 	}
@@ -110,7 +76,7 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 	{
 		checkRep();
 		Rectangle newRectangle = new Rectangle(this.getLocation().x, this.getLocation().y,
-				this.xSideLength, this.ySideLength);
+				(int)this.dimension.getWidth(), (int)this.dimension.getHeight());
 		this.setBoundingRectangle(newRectangle);
 		checkRep();
 		
@@ -141,13 +107,12 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 		
 		//TODO - implement that exeption. what if null 
 		
-		if(dimension.height <= 0 || dimension.width <= 0)
-			throw new ImpossibleSizeException();
+		if(dimension.getHeight() <= 0 || dimension.getWidth()<= 0)
+			throw new ImpossibleSizeException(dimension);
 		
-		// changing xSideLength and ySideLength according to dimension. size value is
+		// changing dimension.getWidth() and dimension.getHeight() according to dimension. size value is
 		// changed automatically at a and b "setter" functions
-		this.setxSideLength(dimension.width);
-		this.setySideLength(dimension.height); 
+		this.dimension = new Dimension(dimension);
 		checkRep();
 	}
 	
@@ -162,8 +127,8 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 		checkRep();		
 		Graphics2D g2 = (Graphics2D) g;
 		// creating arrays of x and y points coordinates of the triangle vertexes.
-		int[] xPoints = {this.getLocation().x, this.getLocation().x, this.getLocation().x + xSideLength};
-		int[] yPoints = {this.getLocation().y, this.getLocation().y + ySideLength, this.getLocation().y};
+		int[] xPoints = {this.getLocation().x, this.getLocation().x, this.getLocation().x + (int)dimension.getWidth()};
+		int[] yPoints = {this.getLocation().y, this.getLocation().y + (int)dimension.getHeight(), this.getLocation().y};
 		g2.fillPolygon(xPoints, yPoints, 3);
 		g2.setColor(this.getColor());
 		checkRep();
@@ -181,8 +146,7 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 		// TODO - why can't we insert try-catch here
 		newLocationAndColorChangingTriangle = (LocationAndColorChangingTriangle) super.clone();		
 		// TODO do we need to manually clone a,b,size
-		newLocationAndColorChangingTriangle.xSideLength = this.xSideLength;
-		newLocationAndColorChangingTriangle.ySideLength = this.ySideLength;
+		newLocationAndColorChangingTriangle.dimension = new Dimension(this.dimension);
 		newLocationAndColorChangingTriangle.size = this.size;
 		newLocationAndColorChangingTriangle.checkRep();
 		checkRep();
@@ -197,11 +161,11 @@ public class LocationAndColorChangingTriangle extends ColorAndLocationChangingSh
 	public void checkRep()
 	{
 		super.checkRep();
-		assert this.xSideLength > 0: "this 'xSideLength' value must be greater than 0";
-		assert this.ySideLength > 0: "this 'ySideLength' value must be greater than 0"; 
+		assert this.dimension.getWidth() > 0: "this 'dimension.getWidth()' value must be greater than 0";
+		assert this.dimension.getHeight() > 0: "this 'dimension.getHeight()' value must be greater than 0";
 		assert this.size > 0: "this 'size' value must be greater than 0";
-		assert this.size == xSideLength * ySideLength / 2: 
-			"triangle 'size' value must be equal to xSideLength * ySideLength / 2";		
+		assert this.size == dimension.getWidth() * dimension.getHeight() / 2:
+			"triangle 'size' value must be equal to dimension.getWidth() * dimension.getHeight() / 2";
 	}
 	
 

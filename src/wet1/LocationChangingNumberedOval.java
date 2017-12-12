@@ -1,10 +1,6 @@
 package wet1;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-
+import java.awt.*;
 
 
 /**
@@ -33,9 +29,9 @@ public class LocationChangingNumberedOval extends LocationChangingOval
 	 * @effects initialize an ellipse shape and update it's id value
 	 * according to the order of it's creation.
 	 */
-	public LocationChangingNumberedOval(Point location, Color color, int a, int b)
+	public LocationChangingNumberedOval(Point location, Color color, Dimension dimension)
 	{
-		super(location, color, a, b);
+		super(location, color, dimension);
 		instanceCounter++;
 		id = instanceCounter;
 		checkRep();
@@ -72,8 +68,8 @@ public class LocationChangingNumberedOval extends LocationChangingOval
 		checkRep();		
 		super.draw(g);		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawString(Integer.toString(this.id), this.getLocation().x + this.getA(), 
-				this.getLocation().y + this.getB());
+		g2.drawString(Integer.toString(this.id), this.getLocation().x +(int)this.getWidth(),
+				this.getLocation().y + (int)this.getHeight());
 		checkRep();
 	}
 

@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 
 import javax.swing.*;
 
@@ -55,11 +58,11 @@ public class Animator extends JFrame implements ActionListener {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
                     //       shapes in this
-                    Iterator<Shape> iterator = this.Shapes.iterator();
-                    Rectangle window = Rectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+                    Iterator<Shape> iterator = shapes.iterator();
+                    Rectangle window = new Rectangle(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
                     while (iterator.hasNext())
                     {
-                        Animatble animatble = (Animatble)iterator.next();
+                        Animatable animatble = (Animatable)iterator.next();
                         animatble.step(window);
                     }
                     repaint();  // make sure that the shapes are redrawn
@@ -180,25 +183,28 @@ public class Animator extends JFrame implements ActionListener {
             int maxHight = (int)((3./10)*WINDOW_HEIGHT);
             int minWidth = (int)((1./10)*WINDOW_WIDTH);
             int maxWidth = (int)((3./10)*WINDOW_WIDTH);
-            int x,y,shapeWidth,shapeHight;
+            int x =0 ,y = 0,shapeWidth = 0,shapeHight = 0 ;
             Random random = new Random();
             boolean fits = false;
-            do
+            System.out.println("1");
+
+            while (!fits)
             {
+                System.out.println("2");
                 shapeHight = random.nextInt(maxHight-minHeight) + minHeight;
-                shapeHight = random.nextInt(maxWidth-minWidth) + minWidth;
+                shapeWidth = random.nextInt(maxWidth-minWidth) + minWidth;
                 x = random.nextInt(WINDOW_WIDTH);
                 y = random.nextInt(WINDOW_HEIGHT);
                 Rectangle rectangle = new Rectangle(x,y,shapeWidth,shapeHight);
-                if window.contains(rectangle)
+                if (window.contains(rectangle))
                 {
-                    fits = false;
+                    fits = true;
                 }
-            }while (!fits);
+            }
 
-            int r = rand.nextInt(255);
-            int g = rand.nextInt(255);
-            int b = rand.nextInt(255);
+            int r = random.nextInt(255);
+            int g = random.nextInt(255);
+            int b = random.nextInt(255);
             Color color = new Color(r, g, b);
             Point location = new Point(x, y);
             Dimension dimension = new Dimension(shapeWidth, shapeHight);
@@ -210,7 +216,7 @@ public class Animator extends JFrame implements ActionListener {
             }
             else if(source.equals(sectorItem))
             {
-                AngleChangingSector newShape = new AngleChangingSector(location, color, dimension);
+                AngleChangingSector newShape = new AngleChangingSector(location, color,0,1, dimension);
                 shapes.add(newShape);
             }
             else if((source.equals(numberedOvalItem)))
